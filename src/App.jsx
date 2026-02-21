@@ -20,11 +20,11 @@ const getH = (id) => CARD_HEIGHTS[id % CARD_HEIGHTS.length];
 export default function Moodboard() {
   const [items, setItems] = useState(() => {
     try {
-      const saved = window.__moodboardData;
-      return saved || SAMPLE_ITEMS;
+      const saved = localStorage.getItem("moodboard-items");
+      return saved ? JSON.parse(saved) : SAMPLE_ITEMS;
     } catch { return SAMPLE_ITEMS; }
   });
-  const [filter, setFilter] = useState("All");
+  useEffect(() => { localStorage.setItem("moodboard-items", JSON.stringify(items)); }, [items]);  const [filter, setFilter] = useState("All");
   const [showAdd, setShowAdd] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [hoveredId, setHoveredId] = useState(null);
