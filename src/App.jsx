@@ -3,17 +3,6 @@ import { useState, useRef, useEffect, useCallback } from "react";
 const ROOMS = ["All", "Living Room", "Bedroom", "Kitchen", "Bathroom", "Office", "Outdoor", "Other"];
 const STATUSES = ["Want", "Maybe", "Saving For", "Bought"];
 
-const SAMPLE_ITEMS = [
-  { id: 1, name: "Linen Sofa", brand: "Article", image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80", link: "https://example.com/sofa", room: "Living Room", price: "1299", status: "Want" },
-  { id: 2, name: "Ceramic Table Lamp", brand: "West Elm", image: "https://images.unsplash.com/photo-1507473885765-e6ed057ab6fe?w=600&q=80", link: "https://example.com/lamp", room: "Bedroom", price: "89", status: "Want" },
-  { id: 3, name: "Woven Throw", brand: "Coyuchi", image: "https://images.unsplash.com/photo-1580301762395-21ce6d555b43?w=600&q=80", link: "https://example.com/throw", room: "Living Room", price: "65", status: "Maybe" },
-  { id: 4, name: "Marble Board", brand: "CB2", image: "https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=600&q=80", link: "https://example.com/board", room: "Kitchen", price: "45", status: "Want" },
-  { id: 5, name: "Terracotta Planter", brand: "Rejuvenation", image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=600&q=80", link: "https://example.com/planter", room: "Outdoor", price: "32", status: "Saving For" },
-  { id: 6, name: "Walnut Desk", brand: "Floyd", image: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=600&q=80", link: "https://example.com/desk", room: "Office", price: "749", status: "Want" },
-  { id: 7, name: "Rattan Mirror", brand: "Anthropologie", image: "https://images.unsplash.com/photo-1618220179428-22790b461013?w=600&q=80", link: "https://example.com/mirror", room: "Bathroom", price: "198", status: "Maybe" },
-  { id: 8, name: "Boucle Accent Chair", brand: "Sixpenny", image: "https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=600&q=80", link: "https://example.com/chair", room: "Living Room", price: "1450", status: "Saving For" },
-];
-
 const CARD_HEIGHTS = [280, 340, 300, 240, 360, 260, 320, 290];
 const getH = (id) => CARD_HEIGHTS[id % CARD_HEIGHTS.length];
 
@@ -21,7 +10,7 @@ export default function Moodboard() {
   const [items, setItems] = useState(() => {
     try {
       const saved = localStorage.getItem("moodboard-items");
-      return saved ? JSON.parse(saved) : SAMPLE_ITEMS;
+      return saved ? JSON.parse(saved) : [];
     } catch { return SAMPLE_ITEMS; }
   });
   useEffect(() => { localStorage.setItem("moodboard-items", JSON.stringify(items)); }, [items]);  const [filter, setFilter] = useState("All");
