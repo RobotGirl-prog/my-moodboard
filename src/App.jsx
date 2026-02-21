@@ -3,6 +3,8 @@ import { useState, useRef, useEffect, useCallback } from "react";
 const ROOMS = ["All", "Living Room", "Bedroom", "Kitchen", "Bathroom", "Office", "Outdoor", "Other"];
 const STATUSES = ["Want", "Maybe", "Saving For", "Bought"];
 
+
+
 const CARD_HEIGHTS = [280, 340, 300, 240, 360, 260, 320, 290];
 const getH = (id) => CARD_HEIGHTS[id % CARD_HEIGHTS.length];
 
@@ -11,9 +13,12 @@ export default function Moodboard() {
     try {
       const saved = localStorage.getItem("moodboard-items");
       return saved ? JSON.parse(saved) : [];
-    } catch { return SAMPLE_ITEMS; }
+    } catch { return []; }
   });
-  useEffect(() => { localStorage.setItem("moodboard-items", JSON.stringify(items)); }, [items]);  const [filter, setFilter] = useState("All");
+
+  useEffect(() => { localStorage.setItem("moodboard-items", JSON.stringify(items)); }, [items]);
+
+  const [filter, setFilter] = useState("All");
   const [showAdd, setShowAdd] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [hoveredId, setHoveredId] = useState(null);
@@ -22,11 +27,12 @@ export default function Moodboard() {
   const [form, setForm] = useState({ name: "", brand: "", image: "", link: "", room: "Living Room", price: "", status: "Want" });
   const [deleteId, setDeleteId] = useState(null);
   const [toast, setToast] = useState(null);
-  const nextId = useRef(SAMPLE_ITEMS.length + 1);
+  const nextId = useRef(Date.now());
   const dropRef = useRef(null);
 
   const filtered = filter === "All" ? items : items.filter((i) => i.room === filter);
- const totalValue = filtered.filter((i) => i.status === "Want").reduce((sum, i) => sum + (parseFloat(i.price) || 0), 0);
+  const totalValue = filtered.filter((i) => i.status === "Want").reduce((sum, i) => sum + (parseFloat(i.price) || 0), 0);
+
   const showToast = (msg) => {
     setToast(msg);
     setTimeout(() => setToast(null), 2200);
@@ -236,8 +242,9 @@ export default function Moodboard() {
 
       {filtered.length === 0 && (
         <div style={s.empty}>
-          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, color: "#5a534b" }}>This space is waiting</p>
-          <p style={{ fontFamily: "'Karla', sans-serif", fontSize: 13, color: "#3d3835", marginTop: 8 }}>Paste a link or add your first item</p>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 26, color: "#5a534b" }}>Your board is ready</p>
+          <p style={{ fontFamily: "'Karla', sans-serif", fontSize: 13, color: "#3d3835", marginTop: 8, lineHeight: 1.6 }}>Paste a product link above or click + Add Item to start curating</p>
+          <button style={{ ...s.addBtn, marginTop: 20, padding: "12px 28px", borderRadius: 10 }} onClick={() => openAdd()}>+ Add Your First Item</button>
         </div>
       )}
 
