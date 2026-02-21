@@ -37,8 +37,7 @@ export default function Moodboard() {
   const dropRef = useRef(null);
 
   const filtered = filter === "All" ? items : items.filter((i) => i.room === filter);
-  const totalValue = items.reduce((sum, i) => sum + (parseFloat(i.price) || 0), 0);
-
+ const totalValue = filtered.filter((i) => i.status === "Want").reduce((sum, i) => sum + (parseFloat(i.price) || 0), 0);
   const showToast = (msg) => {
     setToast(msg);
     setTimeout(() => setToast(null), 2200);
